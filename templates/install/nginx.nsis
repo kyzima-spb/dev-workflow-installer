@@ -1,0 +1,19 @@
+SetOverwrite ifdiff
+
+SetOutPath "$INSTDIR"
+
+File /r "for_copy\{{ NGINXDIR }}"
+
+CreateShortCut "$DESKTOP\www.lnk" "$INSTDIR\{{ NGINXDIR }}\html"
+CreateShortCut "$DESKTOP\Restart Nginx.lnk" "cmd.exe" '/C "$INSTDIR\nssm.exe" restart {{ NGINXDIR }}' "$INSTDIR\{{ NGINXDIR }}\nginx.exe" 0
+CreateShortCut "$DESKTOP\Start Nginx.lnk" "cmd.exe" '/C "$INSTDIR\nssm.exe" start {{ NGINXDIR }}' "$INSTDIR\{{ NGINXDIR }}\nginx.exe" 0
+CreateShortCut "$DESKTOP\Stop Nginx.lnk" "cmd.exe" '/C "$INSTDIR\nssm.exe" stop {{ NGINXDIR }}' "$INSTDIR\{{ NGINXDIR }}\nginx.exe" 0
+
+CreateDirectory "$SMPROGRAMS\{{ APP_TITLE }}\Nginx"
+CreateShortCut "$SMPROGRAMS\{{ APP_TITLE }}\Nginx\www.lnk" "$INSTDIR\{{ NGINXDIR }}\html"
+CreateShortCut "$SMPROGRAMS\{{ APP_TITLE }}\Nginx\Restart Nginx.lnk" "cmd.exe" '/C "$INSTDIR\nssm.exe" restart {{ NGINXDIR }}' "$INSTDIR\{{ NGINXDIR }}\nginx.exe" 0
+CreateShortCut "$SMPROGRAMS\{{ APP_TITLE }}\Nginx\Start Nginx.lnk" "cmd.exe" '/C "$INSTDIR\nssm.exe" start {{ NGINXDIR }}' "$INSTDIR\{{ NGINXDIR }}\nginx.exe" 0
+CreateShortCut "$SMPROGRAMS\{{ APP_TITLE }}\Nginx\Stop Nginx.lnk" "cmd.exe" '/C "$INSTDIR\nssm.exe" stop {{ NGINXDIR }}' "$INSTDIR\{{ NGINXDIR }}\nginx.exe" 0
+
+ExecWait '"$INSTDIR\nssm.exe" install {{ NGINXDIR }} "$INSTDIR\{{ NGINXDIR }}\nginx.exe"'
+ExecWait '"sc.exe" start {{ NGINXDIR }}'
